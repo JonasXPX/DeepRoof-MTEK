@@ -1,7 +1,7 @@
 import numpy as np
 import cv2 as cv
 
-img = cv.imread('roof.jpg',0)
+img = cv.imread('./images/roof.jpg',0)
 ret, thresh = cv.threshold(img,127,255,0)
 contours, hierarchy = cv.findContours(thresh,cv.RETR_TREE,cv.CHAIN_APPROX_SIMPLE)
 #im2, contours, hierarchy = cv.findContours(thresh,1,2)

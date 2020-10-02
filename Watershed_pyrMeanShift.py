@@ -18,7 +18,7 @@ def equalize(img):
 
 
 # load the image and perform pyramid mean shift filtering to aid the thresholding step
-image = cv2.imread('unnamed.png')
+image = cv2.imread('./images/img.png')
 im = equalize(image)
 shifted = cv2.pyrMeanShiftFiltering(image, 21, 51)
 
