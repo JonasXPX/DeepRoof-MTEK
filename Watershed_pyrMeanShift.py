@@ -4,7 +4,7 @@ from skimage.feature import peak_local_max
 from skimage.morphology import watershed
 from scipy import ndimage
 import cv2
-import numpy as np
+import numpy as numpy
 import matplotlib.pyplot as plt
 
 
@@ -18,9 +18,9 @@ def equalize(img):
 
 
 # load the image and perform pyramid mean shift filtering to aid the thresholding step
-image = cv2.imread('./images/img.png')
+image = cv2.imread('./images/roof3.png')
 im = equalize(image)
-shifted = cv2.pyrMeanShiftFiltering(image, 21, 51)
+shifted = cv2.pyrMeanShiftFiltering(image, 21, 52)
 
 # convert the mean shift image to grayscale, then apply
 gray = cv2.cvtColor(shifted, cv2.COLOR_BGR2GRAY)
@@ -38,20 +38,20 @@ localMax = peak_local_max(D, indices=False, min_distance=20,
 
 # perform a connected component analysis on the local peaks,
 # using 8-connectivity, then appy the Watershed algorithm
-markers = ndimage.label(localMax, structure=np.ones((3, 3),np.uint8))[0]
+markers = ndimage.label(localMax, structure=numpy.ones((3, 3), numpy.uint8))[0]
 labels = watershed(-D, markers, mask=thresh)
-print("[INFO] {} unique segments found".format(len(np.unique(labels)) - 1))
+print("[INFO] {} unique segments found".format(len(numpy.unique(labels)) - 1))
 
 # loop over the unique labels returned by the Watershed
 # algorithm
-for label in np.unique(labels):
+for label in numpy.unique(labels):
     # if the label is zero, we are examining the 'background'
     # so simply ignore it
     if label == 0:
         continue
     # otherwise, allocate memory for the label region and draw
     # it on the mask
-    mask = np.zeros(gray.shape, dtype="uint8")
+    mask = numpy.zeros(gray.shape, dtype="uint8")
     mask[labels == label] = 255
 
     # detect contours in the mask and grab the largest one
@@ -70,7 +70,7 @@ for label in np.unique(labels):
         ((x, y), _) = cv2.minEnclosingCircle(c)
         cv2.putText(image, "#{}".format(i + 1), (int(x) - 10, int(y)),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 255), 2)
-        cv2.drawContours(image, [c], -1, (0, 255, 0), 2)
+        cv2.drawContours(image, [c], -1, (0, 255, 0), 1)
 
 plt.figure()
 plt.imshow(image, cmap='gray')

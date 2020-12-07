@@ -27,9 +27,9 @@ def equalize(img):
 
 
 # 28.539901_77.205472.png
-img = cv2.imread('./images/Figure_2.png')
-# if img == None:
-    # raise Exception("nao foi possivel carreras a imago")
+img = cv2.imread('./images/roof3.png')
+if img is None:
+    raise Exception("nao foi possivel carreras a imago")
 # imm = equalize(img)
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 plt.imshow(gray, cmap='gray')
