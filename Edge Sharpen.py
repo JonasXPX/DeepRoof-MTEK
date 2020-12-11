@@ -27,7 +27,7 @@ def equalize(img):
 
 
 # 28.539901_77.205472.png
-img = cv2.imread('./images/roof3.png')
+img = cv2.imread('./images/temp.jpg')
 if img is None:
     raise Exception("nao foi possivel carreras a imago")
 # imm = equalize(img)

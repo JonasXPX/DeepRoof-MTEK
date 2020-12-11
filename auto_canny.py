@@ -31,7 +31,7 @@ def auto_canny(image, sigma=0.33):
 # ap.add_argument("-i", "-F:\CV Coding\rooftops", required=True,
 # help="F:\CV Coding\rooftops")
 # args = vars(ap.parse_args())F:\CV Coding\rooftops
-images = glob.glob("roof.jpg")
+images = glob.glob("images/temp.jpg")
 
 # loop over the images
 for imagePath in images:

@@ -47,7 +47,7 @@ def gaussian_curve(hist2):
 
 
 if __name__ == '__main__':
-    img = array(Image.open('./images/roof3.png').convert('L'))
+    img = array(Image.open('./images/temp.jpg').convert('L'))
     frequency = input('Enter frequency: ')
     theta = input('Enter Theta: ')
     print(gabor_fit_func(img, frequency, theta))

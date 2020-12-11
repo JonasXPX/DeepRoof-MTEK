@@ -9,18 +9,24 @@ import matplotlib.pyplot as plt
 
 
 def equalize(img):
-    ycrcb = cv2.cvtColor(img, cv2.COLOR_BGR2YCR_CB)
+    resizedImage = cv2.resize(img, (900, 600))
+    ycrcb = cv2.cvtColor(resizedImage, cv2.COLOR_BGR2YCR_CB)
     channels = cv2.split(ycrcb)
     cv2.equalizeHist(channels[0], channels[0])
     cv2.merge(channels, ycrcb)
-    cv2.cvtColor(ycrcb, cv2.COLOR_YCR_CB2BGR, img)
-    return img
+    cv2.cvtColor(ycrcb, cv2.COLOR_YCR_CB2BGR, resizedImage)
+    return resizedImage
 
 
 # load the image and perform pyramid mean shift filtering to aid the thresholding step
-image = cv2.imread('./images/roof3.png')
-im = equalize(image)
-shifted = cv2.pyrMeanShiftFiltering(image, 21, 52)
+image = cv2.imread('./images/temp.jpg')
+equalizedImage = equalize(image)
+cv2.imshow('original', cv2.resize(image, (900, 600)))
+cv2.imshow('test', equalizedImage)
+
+shifted = cv2.pyrMeanShiftFiltering(equalizedImage, 21, 52)
+
+cv2.imshow('shifted', shifted)
 
 # convert the mean shift image to grayscale, then apply
 gray = cv2.cvtColor(shifted, cv2.COLOR_BGR2GRAY)
@@ -33,7 +39,7 @@ plt.imshow(thresh, cmap=plt.get_cmap('gray'))
 # pixel to the nearest zero pixel, then find peaks in this
 # distance map
 D = ndimage.distance_transform_edt(thresh)
-localMax = peak_local_max(D, indices=False, min_distance=20,
+localMax = peak_local_max(D, indices=False, min_distance=100,
                           labels=thresh)
 
 # perform a connected component analysis on the local peaks,
@@ -76,3 +82,4 @@ plt.figure()
 plt.imshow(image, cmap='gray')
 plt.axis('off')
 plt.show()
+cv2.waitKey(0)
